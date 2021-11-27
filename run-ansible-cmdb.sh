@@ -21,12 +21,10 @@ if [ ! -d ./tmp/ansible-cmdb-facts ]
 fi
 
 echo "Copying inventory file to temporary directory."
-cp $1 ./tmp
+cp $1 ./tmp/inventory
 
 echo "Gathering facts for CMDB..."
-ansible -i ./tmp/inventory all -m setup --tree ./tmp/ansible-cmdb-facts/ > /dev/null
-
-if [ ! $? -eq 0 ]
+if ! ansible -i ./tmp/inventory all -m setup --tree ./tmp/ansible-cmdb-facts/ > /dev/null
   then
     echo "ERROR: Gathering facts failed!"
     exit 1
